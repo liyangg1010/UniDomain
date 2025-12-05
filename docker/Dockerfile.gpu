@@ -1,0 +1,58 @@
+# Build Fast Downward
+FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime AS fd-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install tools for building Fast Downward
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    cmake \
+    g++-12 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set /usr/bin/g++ to g++-12 (Required by newer version Fast Downward)
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 120
+
+# Build Fast Downward
+WORKDIR /tools
+RUN git clone https://github.com/aibasel/downward.git fast_downward && \
+    cd fast_downward && \
+    git checkout release-23.06 && \
+    ./build.py
+
+# Final runtime image
+FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+
+LABEL org.opencontainers.image.source="https://github.com/RoboticSJTU/UniDomain"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Runtime Dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    graphviz \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy built Fast Downward
+WORKDIR /tools
+COPY --from=fd-builder /tools/fast_downward /tools/fast_downward
+
+# Set Fast Downward Environment Variable (Built-in Container)
+ENV FAST_DOWNWARD_PATH=/tools/fast_downward/fast-downward.py
+
+# Pre-install Python Dependencies
+# Actual codes will be loaded when building the container via mount
+WORKDIR /app
+COPY pyproject.toml README.md LICENSE /app/
+
+RUN mkdir -p src/unidomain && \
+    # Cheat code to make pip install work
+    touch src/unidomain/__init__.py && \
+    pip install --upgrade pip && \
+    pip install "numpy>=1.23.0" && \
+    pip install --no-cache-dir -e .[all]
+
+WORKDIR /app
+
+CMD ["/bin/bash"]

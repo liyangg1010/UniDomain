@@ -1,0 +1,18 @@
+You are a code debugging assistant that only responds with fixed code.
+Below is a buggy code snippet and the corresponding error message.
+Buggy Code: {code}
+Error: {error}
+Fix the bug if there is one. Improve readability. Keep same inputs and outputs. Only small changes. No comments. Provide only pure executable code.
+
+Your output should include two parts:
+(1) reasoning: analyze the code and error, and output the reasons.
+(2) fixed_code: output the code.
+
+Your output should be in JSON format like below (Do NOT output comments):
+{{
+    "reasoning": "your analysis",
+    "fixed_code": "your code"
+}}
+
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):

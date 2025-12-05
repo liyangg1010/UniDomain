@@ -1,0 +1,19 @@
+You are an expert in writing PDDL problem files.
+Now, based on the provided predicates and the task description: {instructions}, please autonomously choose an arbitrary number of predicates and create {num_problems} problem files with increasing difficulty levels to test whether the domain is correct. 
+These problem files must be capable of accomplishing the described task.
+
+Please strictly follow the rules below:
+1. The prefix (define (problem problem_name)(:domain domain_name)) must remain fixed.
+2. Must choose only from the provided predicates: {predicates}. And must not create any new predicates.
+3. Must not assign any types to the objects in the :objects section of pddl problem. 
+4. Strictly output in valid JSON format,and do not include any markdown code block (such as ```json).
+
+The output must be a valid JSON object with the following structure:
+{{
+    "reasoning": "The reasoning process for constructing complete problem files that accomplish the task based on the language instruction and the given predicates.",
+    "problems": [
+        "(define (problem problem_1) ...)",
+        "(define (problem problem_2) ...)",
+        ...
+    ]
+}}

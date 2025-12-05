@@ -1,0 +1,27 @@
+Now you need to help update a PDDL action string:
+
+Original PDDL action string: {action_string}
+Predicates explaination in action string: {predicates_in_action}
+
+Now one predicate of the action string is changed from {old_predicate} to {new_predicate} in order to express predicates better. 
+They still perform the same function, but the parameters and variables may be different, and the action name may need to be changed. Please update the action string accordingly to extend it to a more gneral one.
+
+Rules:
+(1) You need to changed the parameters and variables in the action string.
+(2) If too many predicates are changed, you also need to change the action name. But new name must be reasonable according to the whole predicates in the action.
+    For example: if the action expresses the meaning of "pick some object from drawer" according to the predicates in preconditions and effects, just name it like "pick_from_drawer", instead of "pick_from_container", etc.
+(3) Do NOT chang any other part of the action string or invent any new predicates.
+(4) Your variables (?o, etc.) in action do not have to be the same as the original predicate's defination.
+
+Your output should include two part:
+(1) reasoning: analyze the update process.
+(2) updated_action: output the updated action string in PDDL format.
+
+Your output should be in JSON format like below:
+{{
+    "reasoning": "your analysis",
+    "updated_action": "(:action open_door \n :parameters (?r ?d) \n :precondition (and (hand_free ?r)) \n :effect (and (is_open ?d)))"
+}}
+
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):

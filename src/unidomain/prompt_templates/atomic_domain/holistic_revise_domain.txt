@@ -1,0 +1,34 @@
+You are an expert in the field of PDDL.
+Now, you need to think step by step based on the task description to determine whether the domain contains any logical or syntactic issues, and whether any predicates used in the preconditions or effects of actions are missing. 
+If necessary, you can create new actions. Please think carefully and revise the domain accordingly. 
+Task description: {instructions}.
+Domain: {domain}.
+
+Please read the following rules carefully and make sure to strictly follow each one.
+1. Use only PDDL 1.0 syntax. Do not use complex constructs such as when, forall and :types to specify object type, etc.
+2. There are two formats for action naming:
+(1) Type 1: If the action requires a tool to complete task, name it as action_target,(e.g., stir_pot). The precondition should include an additional predicate to ensure the object can be used for the task, such as (can_stir_pot ?o) to indicate that object ?o can be used to stir a pot.
+(2) Type 2:  If the action does not require a tool to complete task, 
+    (i) if there is a source/target area, name the action as verb + (source/target)-area, such as pick_from_table. Note that the area should be something like a table or drawer, etc, not an object name (such as pick_up_capsul, pick_sponge,take_lid, touch_lid,etc, are incorrect).
+    (ii)If there is no source or target area, name the action as verb + action-object.Note: Action precondition must include the type predicate of the action-object.For example: close_drawer (include (drawer ?d)), grasp_tap (include (tap ?t)), release_bedspread(include (bespread ?b)), etc.
+3. Predicate Usage 
+(1) Unary Predicates: Used to represent the object type or state, such as (drawer ?d) to indicate ?d is a drawer, and (is_open ?d) to indicate door ?d is open.
+(2) Binary Predicates: Used to represent the spatial relationships between objects, such as (on_table ?o ?t) to indicate that object ?o is on table ?t, and (in_drawer ?o ?d) to indicate that object ?o is inside drawer ?d.
+(3) FOCUS ON PHYSICAL PROPERTIES: In action names and predicates, omit appearance-related details (e.g., color, material) mentioned in the task to improve generalization.Such as using put_in_bowl instead of put_in_silver_bowl;using (rack ?rk) instead of (wooden_rack ?rk) or (color_rack ?rk ?c). 
+(4) ENSURE STATE CONSISTENCY: If the precondition includes a predicate that will be changed by the action (e.g., (hand_free ?r)), the effect must include its negated form (not (hand_free ?r)) to avoid state conflicts and ensure logical consistency before and after execution.
+(5) ENHANCE GENERALIZATION:
+    (i) Do not use specific object names in the precondition and effect predicates; instead, use abstract predicates. For example, instead of (on ?o table), use (on_table ?o ?t) to indicate object ?o is on table ?t.
+    (ii) For actions like “pick” and “place,” omit the type predicates for the direct object to enhance the generalization of the action. However, type predicates for the indirect object must be used. For example, for the action "pick_from_table", omit the type predicate for the direct object (cup ?c), but include the type predicate for the indirect object (table ?t). Additionally, use unstack instead of unstack_lid or unstack_box, etc. 
+(6) AVOID REDUNDANCY: 
+    (i) For example, omit predicates like (pickable ?o), (robot ?r)/(agent ?r), because all task-related objects are pickable or graspable and the task is always carried out by the robot.
+    (ii) Omit predicates that indicate reachability (such as reachable, approach, near, accessible,etc.), because all objects are accessible and reachable.
+(7) AVOID SPATIAL EXPRESSIONS: Do not use predicates to express spatial relationships from the task. For example, for the action “close_drawer,” even if the task is “Close the drawer at the left of the oven,” there is no need to use the predicate (at_left_of_oven ?d) or other predicates indicating spatial relationships.
+**(8) SIMPLIFY PREDICATES: Minimize the number of predicates while ensuring the task is completed. Merge or delete redundant predicates that do not affect task completion. For example, predicates that represent stacking position relationships(such as bottom, top, under, etc.) can be merged into (on ?b1 ?b2) to uniformly represent the stacking relationship.**
+(9) Each predicate must include a separate semicolon (;) followed by a brief comment. For example, (clear ?o) ; object ?o is clear (nothing on it). **Note: Comments are not allowed in actions**
+
+Please strictly output valid JSON, and ensure that your output can be parsed by json.loads.
+Do not include any markdown code block (e.g., ```json). The JSON should have the following two parts:
+{{
+    "reasoning": "a detailed explanation of the task description and your thinking process when correcting them.",
+    "revised_domain": "the full revised PDDL domain."
+}}

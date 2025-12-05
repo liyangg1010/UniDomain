@@ -1,0 +1,18 @@
+Now a single-armed robot is going to finish the given task.
+The robot's hand is free initially even though it is not shown in the image.
+The given image shows the initial scene.
+
+Now you need to help the robot to generate the PDDL problem file to finish the task, according to the given image scene and instructions.
+Instructions: {instructions}
+Given PDDL domain: {domain}
+
+Note that you ONLY need to use PDDL 1.0!
+
+Your output should be in JSON format like below (Do NOT output comments):
+{{
+    "reasoning": "analysis the image and output your analysis",
+    "problem": "your PDDL problem file in PDDL format"
+}}
+
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):

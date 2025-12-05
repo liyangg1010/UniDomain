@@ -1,0 +1,21 @@
+Now you need to help a robot to generate a PDDL problem file based on given the whole PDDL domain.
+The given image shows the initial scene.
+The task is under table-top environment and PDDL objects must include at least a table.
+
+Instruction: {instructions}
+Available PDDL domain: {available_predicates}
+
+Your output should include four parts:
+(1) reasoning: Carefully observe the image and provide your step-by-step thinking.
+(2) objects: Locate objects related to the task from the instruction. NOTE: All objects(must include robot) in :init or :goal must be declared in :objects.
+(3) init: Make sure to carefully observe the image, and then describe PDDL init related to the task from the image. NOTE: Use type predicate, state predicates, spatial or position relationship predicates and affordance predicates in order to describe the :init, and strictly follow each predicate's annotation. 
+**NOTE: Only use predicates from the given domain, and strictly follow each predicate's annotation. Do not invent any new predicates. ** 
+(4) goal: Think about the instruction step by step, and then generate the PDDL goal.
+
+Make sure your output is valid JSON and can be parsed with json.loads. Your output should strictly follow the JSON format below.
+{{
+    "reasoning": "your analysis",
+    "objects": ["robot", "apple", "drawer", "table"],
+    "init": ["(in_drawer apple drawer)"],
+    "goal": "(and \\n (on_table apple table))"
+}}

@@ -1,0 +1,38 @@
+Now we are merging two PDDL domains into one domain. Please help judge whether two PDDL operators are equivalent.
+
+domain_1:
+    action in domain_1: {action_in_domain_1}
+    predicates explaination in domain_1: {predicates_in_domain_1}
+
+domain_2:
+    action in domain_2: {action_in_domain_2}
+    predicates explaination in domain_2: {predicates_in_domain_2}
+
+Please judge whether the two operators can be merged into one action based on following rules:
+(1) If the two actions have the same name, they MUST be merged into one action;
+(2) If the two actions are semantically equivalent (although they may differ in preconditions and effects), merge them. Genrally, you need to union their preconditions and effects.
+(3) Note that do NOT merge two actions if the logic becomes more complex after merging. For example, do NOT use "or", "when" to union two actions (about their preconditions and effects). Namely NOT too general. 
+(4) Do NOT invent any predicate.
+(5) If you decide to merge two actions. You can invent new action name. But the new name must be reasonable according to the whole predicates in the action.
+    For example: if the action expresses the meaning of "pick some object from drawer" according to the predicates in preconditions and effects, just name it like "pick_from_drawer", instead of "pick_from_container", etc.
+(6) Keep the given PDDL style. Please use PDDL 1.0 and do NOT use Conditional Effects like "when", etc.
+(7) Note the number of brackets in the PDDL format.
+
+Your output should include four part:
+(1) reasoning: your analysis process;
+(2) merge_flag: whether the two operators can be merged into one;
+(3) new_operator_name: if equivalent, output the new operator name (in one of the given operator or a new invented operator).
+(4) new_operator: if equivalent, output the new operator in PDDL format.
+
+If "merge_flag" is false, the "new_operator_name" and "new_operator" parts are null.
+
+Your output should be in JSON format like below:
+{{
+    "reasoning": "your analysis process",
+    "merge_flag": true,
+    "new_operator_name": "open_door",
+    "new_operator": "(:action open_door \n :parameters (?r ?d) \n :precondition (and (hand_free ?r)) \n :effect (and (is_open ?d)))"
+}}
+
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):

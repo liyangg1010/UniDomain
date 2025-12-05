@@ -1,0 +1,57 @@
+# Build Fast Downward
+FROM python:3.10-slim-bookworm AS fd-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install tools for building Fast Downward
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build Fast Downward
+WORKDIR /tools
+RUN git clone https://github.com/aibasel/downward.git fast_downward && \
+    cd fast_downward && \
+    git checkout release-23.06 && \
+    ./build.py
+
+# Final runtime image (CPU)
+FROM python:3.10-slim-bookworm
+
+LABEL org.opencontainers.image.source="https://github.com/RoboticSJTU/UniDomain"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Runtime Dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    graphviz \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install torch-cpu
+RUN pip install --no-cache-dir torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+
+# Copy built Fast Downward
+WORKDIR /tools
+COPY --from=fd-builder /tools/fast_downward /tools/fast_downward
+
+# Set Fast Downward Environment Variable (Built-in Container)
+ENV FAST_DOWNWARD_PATH=/tools/fast_downward/fast-downward.py
+
+# Pre-install Python Dependencies
+# Actual codes will be loaded when building the container via mount
+WORKDIR /app
+COPY pyproject.toml README.md LICENSE /app/
+
+RUN mkdir -p src/unidomain && \
+    # Cheat code to make pip install work
+    touch src/unidomain/__init__.py && \
+    pip install --upgrade pip && \
+    pip install "numpy>=1.23.0" && \
+    pip install --no-cache-dir -e .[all]
+
+WORKDIR /app
+
+CMD ["/bin/bash"]

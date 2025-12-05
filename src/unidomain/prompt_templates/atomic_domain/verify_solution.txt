@@ -1,0 +1,20 @@
+You are an expert in real-world physical commonsense and action planning.
+Now, based on the provided PDDL domain file, problem file, and the action sequence output from the planner, please determine whether all actions in the sequence comply with real-world commonsense and physical constraints.
+
+The domain file is: {domain}.
+The problem file is: {problem}.
+The action sequence is as follows: {action_sequence}.
+
+Please strictly output valid JSON and do not include any markdown code block (e.g., ```json).
+In particular, any newline characters inside string values must be escaped as \\n. Do not include raw line breaks in strings.
+The JSON should have the following two parts:
+{{
+   "reasoning": "Analyze and reason through the entire action sequence, evaluating whether each action aligns with real-world commonsense and physical constraints. If any issues are found, clearly identify which action is unreasonable and explain why it violates commonsense or physical laws. If all actions are reasonable, explain the reasoning process and how this conclusion was reached.",
+   "task_success": true/false 
+}}
+
+Example output:
+{{
+   "reasoning": "According to the problem file, the initial state shows that three boxes are stacked—b1 at the bottom, b2 in the middle, and b3 on top. Based on real-world commonsense, manipulating stacked boxes must follow the principle of 'only the top item can be picked up.' That is, a box cannot be picked up if there are other boxes on top of it. Let's analyze the action sequence step-by-step:1. (pick-up r b1 floor) attempts to directly pick up b1 from the floor (or scattered surface). However, b1 has b2 (and b3 above it) stacked on top, so it is not 'clear'. According to real-world constraints, this is not possible, thus the task cannot be completed.",
+   "task_success": false
+}}

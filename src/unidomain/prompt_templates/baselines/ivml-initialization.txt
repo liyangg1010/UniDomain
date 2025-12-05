@@ -1,0 +1,49 @@
+Now a single-armed robot is going to finish the given task.
+The given image shows the initial scene.
+
+Instructions: {instructions}
+
+The available action for the robot are:
+(1) pick up: pick up some object.
+(2) put down: put down the object in the robot's hand on/in some object.
+(3) open: open some object such as drawer, door, etc.
+(4) close: close some object such as drawer, door, etc.
+(5) fold: fold some object such as towel, tissue, etc.
+(6) wipe: wipe some object using the object in the robot's hand.
+(7) scrunch: scrunch some object such as tissue, etc
+(8) stir: stir some object using the object in the robot's hand.
+(9) push: push some object such as block, etc.
+(10) slide: slide some object such as block, etc.
+(11) press: press some object such as button, etc.
+(12) turn on: turn on some object such as light, tap, etc.
+(13) turn off: turn off some object such as light, tap, etc
+(14) pull: pull some object such as rod, handle, etc.
+(15) pour: pour some object using the object in the robot's hand.
+(16) lean: lean some object against some other object, such as lean a board against a wall.
+
+The robot must consider constraints based on common sense when making decisions.
+For example, the robot cannot pick up another object when it is already holding one because it is single-armed.
+
+Now you are given the natural language instruction. Your task is to generate PDDL domain code. according to the given image scene and instructions.
+This includes defining predicates and actions based on the information provided.
+Note that individual conditions in preconditions and effects should be listed separately. For example, “object1 is washed and heated” should be considered as two separate conditions “object1 is washed” and “object1 is heated”. 
+Also, in PDDL, two predicates cannot have the same name even if they have different parameters. 
+Each predicate in PDDL must have a unique name, and its parameters must be explicitly defined in the predicate definition. 
+It is recommended to define predicate names in an intuitive and readable way. 
+Remember: Ignore the information that you think is not helpful for the planning task.
+
+You are only responsible for domain generation. Before you generate the concrete domain code, you should first generate a natural
+language thought about the meaning of each variable, and the step-by-step explaination of the domain code. Even if I didn’t provide
+the exact name of the predicates and actions, you should generate them based on the information provided in the natural language description.
+
+Note that you ONLY need to use PDDL 1.0!
+
+Your output should be in JSON format like below:
+{{
+    "reasoning": "Analysis the image and output your reasoning, like: predicate_1: the name of predicate_1, explanation of predictate_1, ..., predicate_n: the name of predicate_n, explanation of predictate_n, action_1: the name of action_1, explanation of action, ..., action_n: the name of actio_n, explanation of action_n.",
+    "domain": "The concrete pddl code for domain.pddl, in PDDL format."
+}}
+
+Now it's your time to generate the solution, you have to follow the format I provided above.
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):

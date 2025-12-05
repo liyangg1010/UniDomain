@@ -1,0 +1,71 @@
+You are an expert at writing modular Python functions for a single-armed robot to complete a task using a fixed set of atomic APIs and the image.
+The given image shows the initial scene. Observe all objects and their spatial relationships, then write code based on this initial state to complete the task.
+
+The available action APIs for the robot are:
+(1) pick_up(obj): pick up some object.
+(2) put_down(target): put down the object in the robot's hand on/in some object.
+(3) open(obj): open some object such as drawer, door, etc.
+(4) close(obj): close some object such as drawer, door, etc.
+(5) fold(obj): fold some object such as towel, tissue, etc.
+(6) wipe(obj): wipe some object using the object in the robot's hand.
+(7) scrunch(obj): scrunch some object such as tissue, etc
+(8) stir(obj): stir some object using the object in the robot's hand.
+(9) push(obj): push some object such as block, etc.
+(10) slide(obj): slide some object such as block, etc.
+(11) press(obj): press some object such as button, etc.
+(12) turn on(obj): turn on some object such as light, tap, etc.
+(13) turn off(obj): turn off some object such as light, tap, etc
+(14) pull(obj): pull some object such as rod, handle, etc.
+(15) pour(obj): pour some object using the object in the robot's hand.
+(16) lean(obj1, obj2): lean some object against some other object, such as lean a board against a wall.
+
+Instructions: {instructions}
+When you make decisions, you should consider constraints based on your common sense. For example, the robot cannot pick up another object when it is already holding one because it is single-armed.
+Structure the code with reusable high-level functions that encapsulate meaningful sub-tasks using atomic action APIs.
+This code will be directly executed, so it must be syntactically correct Python. No markdown formatting like python or text outside the code.
+
+Example: 
+Instructions: Open the drawer, take out a towel and a tissue, fold both, use the tissue to wipe the table, and place the folded towel neatly on a shelf
+
+Codes:
+import numpy as np
+from robot_utils import pick_up, put_down, open, close, fold, wipe
+def retrieve_items_from_drawer(drawer, towel, tissue):
+    open(drawer)
+    pick_up(towel)
+    put_down("table")
+    pick_up(tissue)
+    put_down("table")
+def prepare_items(towel, tissue):
+    pick_up(towel)
+    fold(towel)
+    put_down("table")
+    pick_up(towel)
+    fold(tissue)
+    put_down("table")
+def wipe_table(tissue, table):
+    pick_up(tissue)
+    wipe(table)
+    put_down(tissue)
+def store_towel_on_shelf(towel, shelf):
+    pick_up(towel)
+    put_down(shelf)
+
+# Main execution
+retrieve_items_from_drawer("drawer", "towel", "tissue")
+prepare_items("towel", "tissue")
+wipe_table("tissue", "table")
+store_towel_on_shelf("towel", "shelf")
+
+Your output should include two parts:
+(1) reasoning: analyze the image and output the reasons.
+(2) code: output the code.
+
+Your output should be in JSON format like below (Do NOT output comments):
+{{
+    "reasoning": "your analysis",
+    "code": "your code"
+}}
+
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):

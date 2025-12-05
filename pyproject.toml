@@ -1,0 +1,109 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unidomain"
+version = "1.0.0"
+description = "Official Python SDK for UniDomain"
+authors = [
+    { name = "ButterflyPrimo", email = "butterflyprimo@sjtu.edu.cn"},
+    { name = "Xiaoyunxiao", email = "xiaoyunxiao@sii.edu.cn"}
+]
+keywords = ["LLM", "task-planning", "robotics", "UniDomain"]
+readme = "README.md"
+license = { file = "LICENSE" }
+
+requires-python = ">=3.10"
+
+dependencies = [
+    "typer>=0.9.0",
+    "python-dotenv",
+    "huggingface_hub",
+    "tqdm",
+    "openai>=1.0.0",
+    "pydantic>=2.0.0",
+    "anytree",
+    "numpy>=1.23.0",
+    "Pillow",
+    "graphviz",
+    "termcolor",
+    "tabulate",
+    "wcwidth"
+]
+
+[project.urls]
+"Homepage" = "https://roboticsjtu.github.io/UniDomain/"
+"Repository" = "https://github.com/RoboticSJTU/unidomain"
+"Lab Website" = "https://roboticsjtu.github.io/Group_website/"
+"Xiaohongshu" = "https://www.xiaohongshu.com/user/profile/67fc3c83000000000a03c1e7"
+"Bilibili" = "https://m.bilibili.com/space/3546982243108982"
+
+
+[project.optional-dependencies]
+
+fusion = [
+    "torch",
+    "sentence-transformers"
+]
+
+baselines = [
+    "opencv-python",
+    "tenacity"
+]
+
+dev = [
+    "ruff",
+]
+
+all = [
+    "unidomain[fusion,baselines,dev]",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+unidomain = "unidomain.cli:app"
+
+
+[tool.ruff]
+line-length = 127
+target-version = "py310"
+src = ["src"]
+
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "outputs",
+    "data",
+    "*.egg-info",
+    "src/unidomain/baselines/isr_llm",
+    "src/unidomain/baselines/reflexion",
+]
+
+[tool.ruff.lint]
+# E: pycodestyle errors
+# F: Pyflakes
+# I: isort
+# W: pycodestyle warnings
+select = ["E", "F", "I", "W"]
+
+# E303: too many blank lines
+# W293: blank line contains whitespace
+ignore = ["E303", "W293"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["unidomain"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.per-file-ignores]
+# F401: Module imported but unused
+"src/unidomain/cli.py" = ["F401"]
+"src/unidomain/__init__.py" = ["F401"]
+"scripts/*" = ["F401"]

@@ -1,0 +1,29 @@
+Now we are merging two PDDL domains into one domain. Please help merge two PDDL predicates.
+
+predicate in domain_1: {predicate_in_domain_1}
+predicate in domain_2: {predicate_in_domain_2}
+
+Please judge whether the two predicates can be merged into one predicate based on following rules:
+(1) If the two predicates have the same name, they MUST be merged into one predicate;
+(2) If the two predicates are semantically equivalent, they MUST be merged into one predicate;
+    but not too general or complex, such as "(cup ?c): c is a cup" and "(mug ?m): m is a mug" can be merged into one predicate "(cup ?c): c is a cup" because they are both "cup" in semantics, but not "(container ?o): o is a container" because the semantics are extended too much. 
+(3) It the two predicates are containing relationship, do NOT merge them in case of complexity in PDDL operators;
+    such as "(on ?x ?y) ; x is on top of y" and "(ontable ?x ?y), x is on the table y". Although "ontable" is a subset of "on", it is not recommended to merge them into one predicate.
+    Namely, do NOT generalize the two predicates into one predicate if the logic becomes more complex after merging.
+
+Your output should include three part:
+(1) reasoning: your analysis process;
+(2) merge_flag: whether the two predicates can be merged into one;
+(3) new_predicate: if equivalent, output the new predicate in PDDL format (in one of the given predicates or a new invented predicate).
+
+If "merge_flag" is false, the "new_predicate" part is null.
+
+Your output should be in JSON format like below:
+{{
+    "reasoning": "your analysis process",
+    "merge_flag": true,
+    "new_predicate": ["(new_predicate ?param)", "A brief summary of the new predicate like the two given predicates."]
+}}
+
+Do NOT output any strange symbols like "\".
+Your output (please do not output ```json```):
