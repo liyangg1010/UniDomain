@@ -27,20 +27,38 @@ from typing import TYPE_CHECKING
 _LAZY_IMPORTS = {
     # Config
     "config": "unidomain.configs.settings",
-    
+
     # Keyframes
     "keyframes_pipeline": "unidomain.keyframes.pipeline",
-    
+
     # Atomic Domain
     "atomic_domain_pipeline": "unidomain.atomic_domain.pipeline",
     "atomic_domain_batch_pipeline": "unidomain.atomic_domain.pipeline",
-    
+
     # Domain Fusion
     "domain_fusion_pipeline": "unidomain.domain_fusion.pipeline",
-    
+
     # Task Planner
     "task_planner_pipeline": "unidomain.task_planner.pipeline",
     "task_planner_batch_pipeline": "unidomain.task_planner.pipeline",
+
+    # HD Extensions - Atomic Domain
+    "atomic_domain_pipeline_for_hd": "unidomain.hd_extensions.atomic_domain_pipeline_hd",
+    "initiate_domain_from_keyframes_for_hd": "unidomain.hd_extensions.initial_domain_hd",
+    "run_initial_domain_step_for_hd": "unidomain.hd_extensions.initial_domain_hd",
+
+    # HD Extensions - Domain Fusion
+    "domain_fusion_pipeline_hd": "unidomain.hd_extensions.domain_fusion_pipeline_hd",
+    "delete_type": "unidomain.hd_extensions.domain_fusion_pipeline_hd",
+    "merge_predicates_hd": "unidomain.hd_extensions.predicate_merging_hd",
+    "merge_operators_hd": "unidomain.hd_extensions.operator_merging_hd",
+    "fuse_two_domains_hd": "unidomain.hd_extensions.runner_hd",
+    "run_domain_fusion_hd": "unidomain.hd_extensions.runner_hd",
+
+    # HD Extensions - LLM Utilities
+    "exclude_thinking": "unidomain.hd_extensions.llm_utils_hd",
+    "HD_MODEL_COSTS": "unidomain.hd_extensions.llm_utils_hd",
+    "get_extended_model_costs": "unidomain.hd_extensions.llm_utils_hd",
 }
 
 # Provide static type hints for IDEs
@@ -50,6 +68,22 @@ if TYPE_CHECKING:
     from unidomain.domain_fusion.pipeline import domain_fusion_pipeline
     from unidomain.keyframes.pipeline import keyframes_pipeline
     from unidomain.task_planner.pipeline import task_planner_batch_pipeline, task_planner_pipeline
+
+    # HD Extensions
+    from unidomain.hd_extensions import (
+        HD_MODEL_COSTS,
+        atomic_domain_pipeline_for_hd,
+        delete_type,
+        domain_fusion_pipeline_hd,
+        exclude_thinking,
+        fuse_two_domains_hd,
+        get_extended_model_costs,
+        initiate_domain_from_keyframes_for_hd,
+        merge_operators_hd,
+        merge_predicates_hd,
+        run_domain_fusion_hd,
+        run_initial_domain_step_for_hd,
+    )
 
 
 def __getattr__(name: str):
