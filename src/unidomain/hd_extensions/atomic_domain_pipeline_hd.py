@@ -32,6 +32,7 @@ from .initial_domain_hd import run_initial_domain_step_for_hd
 __all__ = ["atomic_domain_pipeline_for_hd"]
 
 
+@contextlib.contextmanager
 def _suppress_submodule_logs():
     """Context manager to temporarily suppress logs from sub-modules.
 
