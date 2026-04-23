@@ -26,7 +26,13 @@ MODEL_COSTS = {
     "gpt-4.1-mini": (0.4, 1.6),
     "gpt-4.1-nano": (0.1, 0.4),
     "o3": (4, 10),
-    "o4-mini": (1.1, 4.4)
+    "o4-mini": (1.1, 4.4),
+    # Qwen models (API costs, subject to provider pricing)
+    "Qwen3-235B-A22B": (0.5, 1.0),
+    "Qwen3-235B-A22B-Instruct": (0.5, 1.0),
+    "Qwen3-235B-A22B-Instruct-2507": (0.5, 1.0),
+    "Qwen3.5-397B-A17B": (0.5, 1.0),
+    "Qwen3.6-35B-A3B": (0.5, 1.0),
 }
 
 

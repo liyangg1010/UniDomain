@@ -123,3 +123,9 @@ class LoggerName:
     """Internal logger names used to retrieve specific logging instances."""
     EXECUTION: Final[str] = "execution"
     LLM_USAGE: Final[str] = "llm_usage"
+
+
+class ImageSolution:
+    """Resolution settings for image-based solutions in VLM tasks."""
+    height: Final[int] = 768
+    width: Final[int] = 768
